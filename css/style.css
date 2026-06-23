@@ -108,3 +108,37 @@ p{max-width:70ch}
 .card-ico{font-size:2rem;margin-bottom:10px}
 .card p{color:var(--muted);font-size:.94rem;margin:.4em 0 0}
 
+/* roadmap */
+.roadmap{margin-top:46px;background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:28px 30px}
+.roadmap-title{margin-bottom:14px}
+.roadmap-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px}
+@media(max-width:760px){.roadmap-list{grid-template-columns:1fr}}
+.roadmap-list li{display:flex;align-items:center;gap:14px;color:#cfd4f2;font-size:.95rem}
+.roadmap-list .rl-num{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  font-weight:700;font-size:.9rem;background:#6c7bff22;color:var(--accent2);border:1px solid var(--line)}
+.roadmap-list .rl-text{flex:1;min-width:0}
+
+/* lab (neuron / training) */
+.lab{display:grid;grid-template-columns:1fr 1.1fr;gap:26px;align-items:center;margin:30px 0;
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+@media(max-width:880px){.lab{grid-template-columns:1fr}}
+.lab-controls h4{margin-bottom:16px}
+.slider-row{display:grid;grid-template-columns:90px 1fr 48px;align-items:center;gap:12px;margin:11px 0}
+.slider-row.sm{grid-template-columns:84px 1fr 38px;margin:8px 0}
+.slider-row label{font-size:.85rem;color:var(--muted)}
+.slider-row output{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--accent2);text-align:right}
+.slider-row select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:6px;font-family:inherit}
+input[type=range]{-webkit-appearance:none;appearance:none;height:6px;border-radius:6px;
+  background:#ffffff14;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--accent2);cursor:pointer;box-shadow:0 0 12px #22d3ee88;border:2px solid #fff}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--accent2);cursor:pointer;border:2px solid #fff}
+canvas{max-width:100%;border-radius:12px}
+.lab-viz{display:flex;flex-direction:column;gap:12px;align-items:center}
+#neuron-canvas,#loss-canvas{background:#0a0c1a;border:1px solid var(--line)}
+.neuron-readout{font-family:'JetBrains Mono',monospace;font-size:.9rem;text-align:center;color:var(--muted)}
+.neuron-readout b{color:#fff}
+.out-num{color:var(--good)!important;font-size:1.1rem}
+.loss-readout{margin-top:14px;font-family:'JetBrains Mono',monospace;color:var(--muted)}
+.loss-readout b{color:var(--accent2)}
+
