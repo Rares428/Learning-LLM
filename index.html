@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LLM Workshop — Learn how a language model works, from scratch</title>
+<meta name="description" content="Interactive lesson: from a single neuron to an LLM. Hands-on experiments, 3D models, and a final experiment where a neural network teaches itself to drive around a track." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- Progress bar -->
+<div id="progress-bar"><span id="progress-fill"></span></div>
+
+<!-- Side navigation -->
+<nav id="sidenav" aria-label="Contents">
+  <button id="nav-toggle" aria-label="Menu">☰</button>
+  <ul id="nav-list">
+    <li><a href="#hero" class="active"><span class="dot"></span>Start</a></li>
+    <li><a href="#what"><span class="dot"></span>What is an LLM</a></li>
+    <li><a href="#neuron"><span class="dot"></span>The neuron</a></li>
+    <li><a href="#network"><span class="dot"></span>3D network</a></li>
+    <li><a href="#tokens"><span class="dot"></span>Tokenization</a></li>
+    <li><a href="#embed"><span class="dot"></span>Embeddings</a></li>
+    <li><a href="#attention"><span class="dot"></span>Attention</a></li>
+    <li><a href="#predict"><span class="dot"></span>Prediction</a></li>
+    <li><a href="#train"><span class="dot"></span>Training</a></li>
+    <li><a href="#cars"><span class="dot"></span>🏎️ Experiment</a></li>
+    <li><a href="#challenge"><span class="dot"></span>Your challenge</a></li>
+    <li><a href="#recap"><span class="dot"></span>Recap</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section id="hero" class="section hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content reveal">
+    <span class="kicker">Interactive workshop · hands-on learning</span>
+    <h1>How does an <span class="grad">LLM</span> really work?</h1>
+    <p class="lead">From a single neuron all the way to a model that "understands" language — and a final experiment where a neural network <b>teaches itself</b> to drive cars around a track, mistake after mistake.</p>
+    <p class="sub">No formulas to memorize. You touch, drag sliders, run code and <b>see</b> what happens under the hood.</p>
+    <div class="hero-cta">
+      <a href="#what" class="btn btn-primary">Start the lesson ↓</a>
+      <a href="#cars" class="btn btn-ghost">Jump to the experiment 🏎️</a>
+    </div>
+    <div class="hero-stats">
+      <div><b>10</b><span>interactive modules</span></div>
+      <div><b>∞</b><span>experiments</span></div>
+      <div><b>1</b><span>coding challenge</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint">scroll</div>
+</section>
+
+<!-- ============ WHAT IS AN LLM ============ -->
+<section id="what" class="section">
+  <div class="wrap reveal">
+    <span class="badge">Module 1</span>
+    <h2>So what is an LLM, really?</h2>
+    <p class="big">LLM = <b>Large Language Model</b>. At its core, it's a giant mathematical function that takes some text and answers one single question, over and over:</p>
+    <div class="callout center">
+      <span class="callout-q">"Given the text so far… what is the most likely <u>next word</u>?"</span>
+    </div>
+    <p>That's it. It sounds like little, but if you repeat that question millions of times, word after word, you get poems, code, translations and explanations. An LLM doesn't "know" things the way a human does — it has learned <b>statistical patterns</b> from enormous amounts of text.</p>
+
+    <div class="cards-3">
+      <div class="card">
+        <div class="card-ico">🧠</div>
+        <h3>What it's made of</h3>
+        <p>Of <b>artificial neurons</b> arranged in layers (a neural network), plus an invention called <b>attention</b> (the transformer). We'll build every piece.</p>
+      </div>
+      <div class="card">
+        <div class="card-ico">📚</div>
+        <h3>How it learns</h3>
+        <p>It reads billions of sentences, tries to guess the next word, <b>gets it wrong</b>, measures the error and corrects itself a little. Millions of times.</p>
+      </div>
+      <div class="card">
+        <div class="card-ico">⚙️</div>
+        <h3>What it's used for</h3>
+        <p>Chatbots, coding assistants, translation, summaries, search, agents that use tools — anything involving language.</p>
+      </div>
+    </div>
+
+    <div class="roadmap">
+      <h3 class="roadmap-title">Our journey in this workshop</h3>
+      <ol class="roadmap-list">
+        <li><span class="rl-num">1</span><span class="rl-text">A <b>neuron</b> — the smallest piece that decides something</span></li>
+        <li><span class="rl-num">2</span><span class="rl-text">Many neurons → a <b>network</b> (you'll see it in 3D)</span></li>
+        <li><span class="rl-num">3</span><span class="rl-text">How we turn <b>text into numbers</b> (tokenization + embeddings)</span></li>
+        <li><span class="rl-num">4</span><span class="rl-text"><b>Attention</b>: how words "look at" each other</span></li>
+        <li><span class="rl-num">5</span><span class="rl-text"><b>Prediction</b> of the next word in action</span></li>
+        <li><span class="rl-num">6</span><span class="rl-text"><b>Training</b>: learning from mistakes (gradient descent)</span></li>
+        <li><span class="rl-num">7</span><span class="rl-text">🏎️ The <b>experiment</b>: a network teaches itself a track</span></li>
+        <li><span class="rl-num">8</span><span class="rl-text">✍️ <b>Your challenge</b>: you write code, we test it, you watch it run</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEURON ============ -->
+<section id="neuron" class="section">
+  <div class="wrap reveal">
+    <span class="badge">Module 2 · interactive</span>
+    <h2>The smallest piece: the neuron</h2>
+    <p class="big">An artificial neuron takes a few input numbers, gives each one an <b>importance</b> (a weight), adds them up, adds a <b>bias</b>, and passes everything through an <b>activation function</b>. The result: a single number — "how strongly it fires".</p>
+
+    <div class="lab">
+      <div class="lab-controls">
+        <h4>Drag the weights and watch the neuron "think"</h4>
+        <div class="slider-row"><label>Input x₁</label><input type="range" id="n-x1" min="-1" max="1" step="0.01" value="0.5"><output id="n-x1-v">0.50</output></div>
+        <div class="slider-row"><label>Weight w₁</label><input type="range" id="n-w1" min="-2" max="2" step="0.01" value="1"><output id="n-w1-v">1.00</output></div>
+        <div class="slider-row"><label>Input x₂</label><input type="range" id="n-x2" min="-1" max="1" step="0.01" value="-0.3"><output id="n-x2-v">-0.30</output></div>
+        <div class="slider-row"><label>Weight w₂</label><input type="range" id="n-w2" min="-2" max="2" step="0.01" value="0.8"><output id="n-w2-v">0.80</output></div>
+        <div class="slider-row"><label>Bias b</label><input type="range" id="n-b" min="-2" max="2" step="0.01" value="0"><output id="n-b-v">0.00</output></div>
+        <div class="slider-row"><label>Activation</label>
+          <select id="n-act">
+            <option value="tanh">tanh (smooth, -1..1)</option>
+            <option value="sigmoid">sigmoid (0..1)</option>
+            <option value="relu">ReLU (clips negatives)</option>
+          </select>
+        </div>
+      </div>
+      <div class="lab-viz">
+        <canvas id="neuron-canvas" width="520" height="360"></canvas>
+        <div class="neuron-readout">
+          <div>sum = w₁·x₁ + w₂·x₂ + b = <b id="n-sum">0.00</b></div>
+          <div>output = activation(sum) = <b id="n-out" class="out-num">0.00</b></div>
+        </div>
+      </div>
+    </div>
+    <div class="tip">💡 <b>Experiment:</b> set both weights to 0. The neuron no longer "hears" the inputs — its output depends only on the bias. Now a large weight = the neuron listens a lot to that input. <b>Learning is exactly the tuning of these weights.</b></div>
+  </div>
+</section>
+
+<!-- ============ 3D NETWORK ============ -->
+<section id="network" class="section">
+  <div class="wrap reveal">
+    <span class="badge">Module 3 · 3D model</span>
+    <h2>Many neurons → a network</h2>
+    <p class="big">A single neuron is simple. But link hundreds of them into <b>layers</b> and let the signal flow from input to output — that's a <b>neural network</b>. Below is a real one, in 3D. Press <b>"Send a signal"</b> and watch the neurons light up, layer by layer (this is called a <i>forward pass</i>).</p>
+    <div class="net3d-shell">
+      <div id="net3d-canvas"></div>
+      <div class="net3d-controls">
+        <button id="net-pulse" class="btn btn-primary">⚡ Send a signal</button>
+        <button id="net-rand" class="btn btn-ghost">🎲 Randomize weights</button>
+        <button id="net-rotate" class="btn btn-ghost">⟳ Auto-rotate: ON</button>
+        <p class="net-hint">Drag with the mouse to rotate the network. Lines = weights (blue = positive, red = negative, thick = strong).</p>
+      </div>
+    </div>
+    <div class="tip">💡 A modern LLM has <b>dozens of layers</b> and <b>billions</b> of such weights. Here you see the principle at a tiny scale — the rest is just... more.</div>
+  </div>
+</section>
+
+<!-- ============ TOKENS ============ -->
+<section id="tokens" class="section">
+  <div class="wrap reveal">
+    <span class="badge">Module 4 · interactive</span>
+    <h2>How we turn text into numbers</h2>
+    <p class="big">A neural network can't "see" letters — it only knows how to multiply and add <b>numbers</b> (like the neuron in Module 2). So before anything else, text must be translated into numbers. This happens in <b>two steps</b>:</p>
+
+    <div class="flow">
+      <div class="flow-step"><span>1</span><b>Text</b><code>"learning"</code></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><span>2</span><b>Tokens</b><code>learn · ##ing</code><small>pieces</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><span>3</span><b>IDs</b><code>312 · 9981</code><small>numbers</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step accent"><span>4</span><b>Vectors</b><code>[0.2, -0.7, …]</code><small>Module 5</small></div>
+    </div>
+
+    <div class="theory">
+      <h3>Step 1 — Tokenization (theory)</h3>
+      <p>A <b>token</b> is the smallest unit the model "swallows". They aren't always whole words: long or rare words get split into <b>sub-words</b> (pieces). Why like this?</p>
+      <ul class="theory-list">
+        <li><b>Finite vocabulary:</b> a model has a fixed list of ~30,000–100,000 tokens. Not every word in the world fits — but from pieces you can rebuild <i>any</i> word.</li>
+        <li><b>Unknown words:</b> never seen "trainability"? No problem — it's built from "train" + "##abil" + "##ity", known pieces.</li>
+        <li><b>Efficiency:</b> very frequent words ("the", "of", "and") become a single token; rare ones get split. That way text uses as few numbers as possible.</li>
+      </ul>
+      <p class="small">The <code>##</code> prefix below means "this piece continues the previous word". Each token is then assigned an <b>ID</b> = its position in the vocabulary.</p>
+    </div>
+
+    <p class="big" style="margin-top:8px"><b>Try it now:</b> type any text and watch in real time how it's split into tokens and what ID each one gets. Try a long word (e.g. "supercalifragilistic") and see how it breaks apart:</p>
+    <div class="token-lab">
+      <input type="text" id="token-input" value="Artificial intelligence learns fast!" />
+      <div id="token-output" class="token-output"></div>
+      <div class="token-meta">Tokens: <b id="token-count">0</b> · Characters: <b id="char-count">0</b></div>
+    </div>
+    <div class="tip">💡 Why pieces and not whole words? So it can represent <b>any</b> word, including ones it has never seen (e.g. "antidisestablishment", "LLMs"), out of known pieces.</div>
+  </div>
+</section>
+
+<!-- ============ EMBEDDINGS ============ -->
+<section id="embed" class="section">
+  <div class="wrap reveal">
+    <span class="badge">Module 5 · interactive</span>
+    <h2>Step 2: from ID to meaning — embeddings</h2>
+    <p class="big">An ID (e.g. "cat" = 312) is just a label — it says nothing about meaning. For "312" it's no closer to "dog" than to "airplane". The fix: each token gets a <b>vector</b> — a list of numbers — called an <b>embedding</b>.</p>
+
+    <div class="theory">
+      <h3>What an embedding is (theory)</h3>
+      <ul class="theory-list">
+        <li><b>A vector = coordinates.</b> Just as a point on a map has (latitude, longitude), a word has a vector of <i>many</i> numbers (in real models: 768, 4096 or more "dimensions").</li>
+        <li><b>Meaning = position.</b> The model places words so that those with similar meaning end up <b>close</b> to each other, and different ones — far apart. "cat" and "dog" sit nearby; "cat" and "algorithm" — far.</li>
+        <li><b>Nobody writes them by hand.</b> The model <b>learns</b> these positions on its own during training: words that appear in similar contexts end up in similar regions. (See Module 8 — training.)</li>
+        <li><b>Directions encode concepts.</b> That's what enables meaning arithmetic: <code>king − man + woman ≈ queen</code>. The "direction from man to woman" is the same everywhere in the space.</li>
+      </ul>
+      <p class="small">Below you see a <b>2D</b> map (simplified — real models have hundreds of dimensions, impossible to draw). "Closeness" is measured by the distance between points.</p>
+    </div>
+
+    <p class="big"><b>Try it:</b> click any word on the map. I'll show you its vector (the 2 coordinates), its meaning group and its nearest neighbors — exactly how a model "looks up" related words.</p>
+    <div class="embed-shell">
+      <canvas id="embed-canvas" width="760" height="440"></canvas>
+      <div id="embed-info" class="embed-info">Click a word on the map…</div>
+    </div>
+    <div class="tip">💡 Connect the pieces: <b>tokenization</b> (Mod. 4) splits the text and gives IDs → the <b>embedding</b> (Mod. 5) turns each ID into a meaningful vector → these vectors then enter the network and the <b>attention</b> mechanism (Mod. 6). That's the whole "input engine" of an LLM.</div>
+  </div>
+</section>
+
+<!-- ============ ATTENTION ============ -->
+<section id="attention" class="section">
+  <div class="wrap reveal">
+    <span class="badge">Module 6 · interactive</span>
+    <h2>Attention: the heart of the transformer</h2>
+    <p class="big">To understand a sentence, each word "looks at" the others and decides <b>which ones matter to pay attention to</b>. In "the cat ate quickly because <u>it</u> was hungry", the word "it" must look at "cat". Hover over a word and see what it attends to (the brighter, the more attention):</p>
+    <div id="attn-sentence" class="attn-sentence"></div>
+    <p class="attn-caption">This is the mechanism that made LLMs possible: instead of reading strictly in order, the model links words located anywhere in the text.</p>
+    <div class="tip">💡 A real model does this across dozens of "attention heads" in parallel, each catching a different kind of relationship (grammar, subject, tone…).</div>
+  </div>
+</section>
+
+<!-- ============ PREDICT ============ -->
+<section id="predict" class="section">
+  <div class="wrap reveal">
+    <span class="badge">Module 7 · interactive</span>
+    <h2>Next-word prediction, live</h2>
+    <p class="big">This is our mini-LLM. We "trained" it on a small text (right here on the page) by counting which word follows which. Pick a word and see the <b>probabilities</b> for the next one. Press "Generate" and let it write on its own, word by word — just like an LLM, only tiny.</p>
+    <div class="predict-shell">
+      <div class="predict-current">Current word: <b id="pred-current">the</b></div>
+      <div id="pred-bars" class="pred-bars"></div>
+      <div class="predict-controls">
+        <button id="pred-step" class="btn btn-primary">→ Next word</button>
+        <button id="pred-auto" class="btn btn-ghost">▶ Generate automatically</button>
+        <button id="pred-reset" class="btn btn-ghost">↺ Reset</button>
+      </div>
+      <div class="predict-output" id="pred-output"></div>
+    </div>
+    <div class="tip">💡 Notice the "temperature" of the choice: if we always pick the most likely word, the text becomes repetitive. Real LLMs sometimes pick less likely options to be creative.</div>
+  </div>
+</section>
+
+<!-- ============ TRAINING / GRADIENT DESCENT ============ -->
+<section id="train" class="section">
+  <div class="wrap reveal">
+    <span class="badge">Module 8 · interactive</span>
+    <h2>How it learns: rolling down the hill of error</h2>
+    <p class="big">"Training" means: you measure how badly the model is <b>wrong</b> (a number called the <b>loss / error</b>) and change the weights a little <b>in the direction that lowers the error</b>. Repeat. This is <b>gradient descent</b> — like a ball rolling downhill, toward the lowest point.</p>
+    <div class="lab">
+      <div class="lab-viz">
+        <canvas id="loss-canvas" width="520" height="340"></canvas>
+      </div>
+      <div class="lab-controls">
+        <h4>Train "by hand"</h4>
+        <p class="small">The ball = the current weight setting. Height = the error. We want to get as low as possible.</p>
+        <div class="slider-row"><label>Learning rate</label><input type="range" id="lr" min="0.005" max="0.5" step="0.005" value="0.1"><output id="lr-v">0.10</output></div>
+        <button id="train-step" class="btn btn-primary">↓ One learning step</button>
+        <button id="train-run" class="btn btn-ghost">▶ Train 50 steps</button>
+        <button id="train-reset" class="btn btn-ghost">🎲 Drop the ball randomly</button>
+        <div class="loss-readout">
+          Step: <b id="train-iter">0</b> · Error: <b id="train-loss">—</b>
+        </div>
+        <div class="tip small">💡 Rate too high → the ball jumps over the minimum and never settles. Too low → it learns very slowly. This is the art of training.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE BIG EXPERIMENT: CARS ============ -->
+<section id="cars" class="section section-feature">
+  <div class="wrap reveal">
+    <span class="badge badge-hot">The big experiment 🏎️</span>
+    <h2>A neural network teaches itself a track</h2>
+    <p class="big">We put everything we've learned to work. Each car has <b>"eyes"</b> (sensors that measure the distance to the edges of the track) wired to a <b>neural network</b> — exactly the kind of neurons from Modules 2-3. The network decides the steering and the throttle. At first they have no idea how to drive and crash immediately.</p>
+    <p class="big">But we send out <b>a whole population</b> of cars. The ones that get further are "the best". We take their <b>brains</b>, combine them and <b>mutate them a little at random</b> (like in evolution), and start a new generation. Generation after generation, the cars <b>learn from their mistakes</b>. Watch:</p>
+    <p class="big">✏️ <b>Make your own track!</b> Press "Draw your track", hold the mouse button down and draw a closed loop. The cars will learn <i>your</i> track from scratch. Every student can have their own track.</p>
+
+    <div class="sim-shell">
+      <div class="sim-canvas-wrap">
+        <canvas id="sim-canvas" width="900" height="560"></canvas>
+        <div class="sim-overlay" id="sim-overlay"></div>
+      </div>
+      <div class="sim-side">
+        <div class="sim-stat-grid">
+          <div class="sim-stat"><span>Generation</span><b id="s-gen">1</b></div>
+          <div class="sim-stat"><span>Cars alive</span><b id="s-alive">0</b></div>
+          <div class="sim-stat"><span>Leader score</span><b id="s-best">0</b></div>
+          <div class="sim-stat"><span>All-time record</span><b id="s-record">0</b></div>
+        </div>
+        <div class="sim-buttons">
+          <button id="sim-start" class="btn btn-primary">▶ Start training</button>
+          <button id="sim-pause" class="btn btn-ghost">⏸ Pause</button>
+          <button id="sim-fast" class="btn btn-ghost">⏩ Speed: 1×</button>
+          <button id="sim-reset" class="btn btn-ghost">↺ From scratch</button>
+        </div>
+        <div class="sim-buttons">
+          <button id="sim-draw" class="btn btn-ghost">✏️ Draw your track</button>
+          <button id="sim-default" class="btn btn-ghost">🔄 Default track</button>
+        </div>
+        <div class="sim-sliders">
+          <div class="slider-row sm"><label>Cars</label><input type="range" id="s-pop" min="20" max="300" step="10" value="120"><output id="s-pop-v">120</output></div>
+          <div class="slider-row sm"><label>Mutation rate</label><input type="range" id="s-mut" min="0.01" max="0.5" step="0.01" value="0.12"><output id="s-mut-v">0.12</output></div>
+          <label class="check"><input type="checkbox" id="s-sensors" checked> Show sensors (the "eyes")</label>
+          <label class="check"><input type="checkbox" id="s-brain" checked> Show the leader's brain</label>
+        </div>
+        <canvas id="brain-canvas" width="300" height="200"></canvas>
+        <canvas id="fitness-chart" width="300" height="120"></canvas>
+      </div>
+    </div>
+
+    <div class="explain-grid">
+      <div class="ex">
+        <h4>1. The sensors (inputs)</h4>
+        <p>5 rays shoot out from the front of the car. Each returns how far the wall is. These are the 5 input numbers into the network — just like x₁, x₂ from Module 2.</p>
+      </div>
+      <div class="ex">
+        <h4>2. The brain (the network)</h4>
+        <p>The 5 numbers pass through layers of neurons and out come <b>2 decisions</b>: steering (left/right) and throttle. That's what you see animated in the "brain" panel.</p>
+      </div>
+      <div class="ex">
+        <h4>3. Selection (evolution)</h4>
+        <p>Whoever goes further without crashing → higher fitness → more likely to become a "parent" for the next generation.</p>
+      </div>
+      <div class="ex">
+        <h4>4. Mutation (useful mistakes)</h4>
+        <p>Children inherit their parents' brain + small random changes. Some hurt, some help. The ones that help survive. That's how progress appears.</p>
+      </div>
+    </div>
+    <div class="tip">💡 <b>The link to LLMs:</b> here "learning from mistakes" is visible to the naked eye. An LLM does the same fundamental thing — it tries, measures the error, adjusts — only on text and with gradient descent (Module 8) instead of evolution. The key idea is identical: <b>nobody programs the solution; the model discovers it from feedback.</b></div>
+  </div>
+</section>
+
+<!-- ============ CHALLENGE ============ -->
+<section id="challenge" class="section">
+  <div class="wrap reveal">
+    <span class="badge">Your challenge ✍️</span>
+    <h2>Now you write the "brain"</h2>
+    <p class="big">Let's check that you've understood. Below is a code editor. You have to complete the function that decides how a neuron responds — <b>exactly the piece from Module 2</b>. Press <b>"Run tests"</b>; we check your code automatically. When you pass all the tests, you unlock a mini-track driven by <b>your code</b>.</p>
+
+    <div class="challenge-shell">
+      <div class="challenge-task">
+        <h4>📋 The task</h4>
+        <p>Write the function <code>neuron(inputs, weights, bias)</code> that:</p>
+        <ol>
+          <li>multiplies each input by its weight and adds it all up (the weighted sum);</li>
+          <li>adds <code>bias</code>;</li>
+          <li>returns the result passed through <code>tanh()</code> (we gave you <code>tanh</code> ready-made).</li>
+        </ol>
+        <p class="small">You may use a <code>for</code> loop or array methods. Language: JavaScript.</p>
+      </div>
+      <div class="challenge-editor">
+        <div class="editor-tabs"><span class="tab active">solution.js</span></div>
+        <textarea id="code-editor" spellcheck="false">// tanh is already defined for you:
+//   tanh(x) -> a number between -1 and 1
+//
+// Complete the function:
+function neuron(inputs, weights, bias) {
+  let sum = 0;
+
+  // TODO: add up inputs[i] * weights[i] for each i
+  // TODO: add bias to sum
+  // TODO: return tanh(sum)
+
+  return 0; // <-- replace this
+}
+</textarea>
+        <div class="challenge-actions">
+          <button id="run-tests" class="btn btn-primary">▶ Run tests</button>
+          <button id="reset-code" class="btn btn-ghost">↺ Reset code</button>
+          <button id="show-solution" class="btn btn-ghost">👁 Show solution</button>
+        </div>
+        <div id="test-results" class="test-results"></div>
+      </div>
+    </div>
+
+    <div id="reward" class="reward hidden">
+      <h3>🎉 Congratulations! Your brain works.</h3>
+      <p>The car below is driven by the function <b>you wrote</b>. Press start and watch your work:</p>
+      <canvas id="reward-canvas" width="760" height="320"></canvas>
+      <button id="reward-start" class="btn btn-primary">▶ Start my car</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RECAP ============ -->
+<section id="recap" class="section">
+  <div class="wrap reveal">
+    <span class="badge">Recap</span>
+    <h2>What you built today</h2>
+    <div class="recap-grid">
+      <div class="recap-item"><span>🧠</span><b>The neuron</b><p>Inputs × weights + bias → activation. The smallest decision.</p></div>
+      <div class="recap-item"><span>🕸️</span><b>The network</b><p>Neurons in layers the signal flows through.</p></div>
+      <div class="recap-item"><span>🔤</span><b>Tokens</b><p>Text becomes pieces → numbers.</p></div>
+      <div class="recap-item"><span>📍</span><b>Embeddings</b><p>Words as points; meaning = position.</p></div>
+      <div class="recap-item"><span>👀</span><b>Attention</b><p>Words look at one another.</p></div>
+      <div class="recap-item"><span>🎲</span><b>Prediction</b><p>The next word, by probability.</p></div>
+      <div class="recap-item"><span>⛰️</span><b>Training</b><p>Rolling down the hill of error.</p></div>
+      <div class="recap-item"><span>🏎️</span><b>Learning from mistakes</b><p>Generations that improve on their own.</p></div>
+    </div>
+    <div class="next-steps">
+      <h3>Going further</h3>
+      <p>The difference between the car experiment and a real LLM is the <b>scale</b> and the <b>training method</b> (gradient descent on text, not evolution). But the pieces are the same ones you touched today. If you want the next step: try training a small network in Python (PyTorch) that predicts the next character of a text — that's exactly the mini-LLM from Module 7, but real.</p>
+    </div>
+    <p class="foot">Built as an interactive educational workshop. Play with every module — you learn best by breaking and tuning things. ✨</p>
+  </div>
+</section>
+
+</main>
+
+<!-- Three.js for the 3D network -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/neuron.js"></script>
+<script src="js/network3d.js"></script>
+<script src="js/text-demos.js"></script>
+<script src="js/training.js"></script>
+<script src="js/nn.js"></script>
+<script src="js/simulation.js"></script>
+<script src="js/challenge.js"></script>
+</body>
+</html>
