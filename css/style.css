@@ -21,7 +21,7 @@ body{
   margin:0;background:var(--bg);color:var(--text);
   font-family:'Inter',system-ui,sans-serif;line-height:1.6;
   overflow-x:hidden;
-}s
+}
 b{color:#fff;font-weight:600}
 u{text-decoration-color:var(--accent2);text-underline-offset:3px}
 code{font-family:'JetBrains Mono',monospace;background:#0006;border:1px solid var(--line);
@@ -42,3 +42,29 @@ code{font-family:'JetBrains Mono',monospace;background:#0006;border:1px solid va
 #nav-list a:hover{color:#fff;background:#ffffff08}
 #nav-list a.active{color:#fff;background:#ffffff0d}
 #nav-list a.active .dot{background:var(--accent2);box-shadow:0 0 10px var(--accent2)}
+
+/* sections */
+.section{position:relative;padding:96px 240px 96px 8vw;min-height:60vh}
+@media(max-width:1100px){.section{padding:80px 7vw}}
+.wrap{max-width:1000px;margin:0 auto}
+.section-feature{background:
+  radial-gradient(1200px 600px at 80% -10%,#6c7bff14,transparent),
+  radial-gradient(900px 500px at 0% 110%,#22d3ee10,transparent)}
+
+h1{font-size:clamp(2.2rem,6vw,4.4rem);line-height:1.02;margin:.2em 0;letter-spacing:-.02em;font-weight:800}
+h2{font-size:clamp(1.8rem,4vw,2.9rem);margin:.1em 0 .5em;letter-spacing:-.02em;font-weight:800}
+h3{font-size:1.25rem;margin:.2em 0}
+h4{font-size:1rem;margin:.2em 0;letter-spacing:.01em}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:clamp(1.05rem,2vw,1.45rem);color:#cdd2f0;max-width:46ch}
+.sub{color:var(--muted);max-width:50ch}
+.big{font-size:1.12rem;color:#cfd4f2;max-width:66ch}
+.small{font-size:.85rem;color:var(--muted)}
+p{max-width:70ch}
+
+.badge{display:inline-block;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent2);border:1px solid var(--line);background:#ffffff06;
+  padding:5px 12px;border-radius:99px;margin-bottom:14px;font-weight:600}
+.badge-hot{color:var(--hot);border-color:#ff6b9d44;background:#ff6b9d10}
+.kicker{display:inline-block;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent2);margin-bottom:18px;font-weight:600}
+
