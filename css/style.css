@@ -21,7 +21,7 @@ body{
   margin:0;background:var(--bg);color:var(--text);
   font-family:'Inter',system-ui,sans-serif;line-height:1.6;
   overflow-x:hidden;
-}
+}s
 b{color:#fff;font-weight:600}
 u{text-decoration-color:var(--accent2);text-underline-offset:3px}
 code{font-family:'JetBrains Mono',monospace;background:#0006;border:1px solid var(--line);
